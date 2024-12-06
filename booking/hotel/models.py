@@ -3,11 +3,11 @@ from django.contrib.auth.models import AbstractUser
 
 
 class Profile(AbstractUser):
-    ROLE_CHOICES = [
-        ('client', 'Client'),
-        ('hotel_owner', 'Hotel Owner'),
-        ('admin', 'Admin'),
-    ]
+    ROLE_CHOICES = (
+        ('client', 'client'),
+        ('owner', 'owner'),
+        ('admin', 'admin'),
+    )
 
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
     date_registered = models.DateTimeField(auto_now_add=True)
@@ -39,7 +39,7 @@ class Room(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"Room {self.room_number} - {self.status}"
+        return f"{self.room_number} - {self.status}"
 
 
 
@@ -51,4 +51,4 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Review for {self.hotel.name} by {self.user.username}"
+        return f"{self.hotel.name},{self.user.username}"
