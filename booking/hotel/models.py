@@ -21,6 +21,7 @@ class Hotel(models.Model):
     address = models.TextField()
     owner = models.ForeignKey(Profile, related_name='hotels', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    #year = models.DateField()
 
     def __str__(self):
         return self.name
