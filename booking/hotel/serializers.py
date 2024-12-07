@@ -1,6 +1,9 @@
 from django.contrib.auth import authenticate
 from rest_framework import serializers
-from .models import Profile, Hotel, Room, Review, Booking
+from .models import *
+from django.contrib.auth.models import User
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import authenticate
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -12,6 +15,18 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = Profile.objects.create_user(**validated_data)
         return user
+
+    def to_representation(self, instance):
+        refresh = RefreshToken.for_user(instance)
+        return {
+            'user': {
+                'username': instance.username,
+                'email': instance.email,
+            },
+            'access': str(refresh.access_token),
+            'refresh': str(refresh),
+        }
+
 
 
 class LoginSerializer(serializers.Serializer):
@@ -26,6 +41,8 @@ class LoginSerializer(serializers.Serializer):
 
 
 class HotelSerializer(serializers.ModelSerializer):
+    #year = serializers.DateField(format('%d-%m-%Y'))
+
     class Meta:
         model = Hotel
         fields = ['id', 'name', 'address', 'owner', 'created_at']
@@ -44,6 +61,8 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 
 class BookingSerializer(serializers.ModelSerializer):
+    #date = serializers.DateTimeField(format='%d-%m-%Y %H:%M')
+
     class Meta:
         model = Booking
         fields = ['user', 'room', 'start_date', 'end_date']
