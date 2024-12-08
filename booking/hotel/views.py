@@ -3,7 +3,7 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Profile, Hotel, Room, Review, Booking
-from .permissions import CheckOwner, CheckHotel, CheckOwnerHotel
+from .permissions import CheckOwner, CheckHotel
 from .serializers import UserSerializer, HotelSerializer, RoomSerializer, ReviewSerializer, BookingSerializer, \
     LoginSerializer
 from rest_framework.permissions import IsAuthenticated
@@ -47,8 +47,6 @@ class LogoutView(generics.GenericAPIView):
         except Exception:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-# class RegisterView(generics.CreateAPIView):
-#     serializer_class = UserSerializer
 
 
 class CustomLoginView(generics.GenericAPIView):
@@ -75,13 +73,13 @@ class CustomLoginView(generics.GenericAPIView):
 class HotelViewSet(viewsets.ModelViewSet):
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
-    permission_classes = [IsAuthenticated, CheckOwnerHotel]
+    permission_classes = [IsAuthenticated, ]
 
 
 class RoomViewSet(viewsets.ModelViewSet):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
-    permission_classes = [IsAuthenticated, CheckOwnerHotel]
+    permission_classes = [IsAuthenticated, ]
 
 
 class ReviewViewSet(viewsets.ModelViewSet):

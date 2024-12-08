@@ -16,9 +16,9 @@ class CheckHotel(permissions.BasePermission):
         return obj.status != 'доступно'
 
 
-class CheckOwnerHotel(permissions.BasePermission):
-    def has_permission(self, request, view):
-        if request.user.status == 'owner':
-            return True
-        return False
+# class CheckOwnerHotel(permissions.BasePermission):
+#     def has_permission(self, request, view):
+#         if request.user.status == 'owner':
+#             return True
+#         return False
 
